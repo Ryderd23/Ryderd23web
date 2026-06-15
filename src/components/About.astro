@@ -1,0 +1,66 @@
+---
+import { site } from "@/data/site";
+
+const { artist, about } = site;
+const parts = artist.aboutHeading.split(artist.aboutHighlight);
+const storyParagraphs = artist.biography.split("\n\n").filter(Boolean);
+const Box = "div";
+---
+
+<section id={about.id} class="about-section relative section-pad overflow-hidden bg-void">
+  <Box class="about-section__glow pointer-events-none absolute inset-0" aria-hidden="true"></Box>
+
+  <span
+    class="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 font-display text-[18vw] text-white/[0.02] select-none"
+    aria-hidden="true"
+  >
+    {site.hero.watermark}
+  </span>
+
+  <Box class="container-main relative z-10">
+    <p class="text-[10px] tracking-[0.3em] text-gold uppercase mb-6 sm:mb-8 reveal" data-reveal="fade">
+      {about.label}
+    </p>
+
+    <Box class="grid lg:grid-cols-2 gap-10 sm:gap-12 lg:gap-16 xl:gap-20 items-center">
+      <!-- Mobile: imagen primero -->
+      <Box class="reveal order-1 lg:order-1" data-reveal="left">
+        <Box class="about-artist-frame group">
+          <Box class="about-artist-frame__glow" aria-hidden="true"></Box>
+          <img
+            src={about.image}
+            alt={`${artist.name} — produciendo música en el estudio`}
+            class="about-artist-frame__img"
+            loading="lazy"
+            width={720}
+            height={960}
+          />
+          <Box class="about-artist-frame__overlay" aria-hidden="true"></Box>
+          <Box class="about-artist-frame__border" aria-hidden="true"></Box>
+        </Box>
+      </Box>
+
+      <Box class="reveal order-2 lg:order-2" data-reveal="right">
+        <h2 class="font-display text-3xl sm:text-4xl md:text-[2.75rem] tracking-wider leading-tight mb-8">
+          {parts[0]}
+          <span class="text-gold">{artist.aboutHighlight}</span>
+          {parts[1]}
+        </h2>
+
+        <Box class="about-story space-y-5 sm:space-y-6 mb-8">
+          {
+            storyParagraphs.map((paragraph) => (
+              <p class="about-story__p text-white/65 text-base sm:text-[1.05rem] leading-[1.85] sm:leading-[1.9]">
+                {paragraph}
+              </p>
+            ))
+          }
+        </Box>
+
+        <p class="text-xs sm:text-sm text-white/40 tracking-[0.15em] uppercase">
+          {artist.city}, {artist.country} · {artist.genre}
+        </p>
+      </Box>
+    </Box>
+  </Box>
+</section>

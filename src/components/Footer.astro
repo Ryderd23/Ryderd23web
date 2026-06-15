@@ -1,0 +1,41 @@
+---
+import { site } from "@/data/site";
+import { footerLinks } from "@/data/socials";
+import SocialLink from "@/components/ui/SocialLink.astro";
+
+const { footer, logo } = site;
+const D = "div";
+---
+
+<footer class="border-t border-gold/10 bg-void-950">
+  <D class="container-main px-5 sm:px-8 lg:px-16 py-10">
+    <D class="flex flex-col items-center gap-8 reveal mb-10">
+      <p class="text-[10px] tracking-[0.35em] text-gold uppercase">Escucha y sígueme</p>
+      <D class="flex flex-wrap justify-center gap-4 sm:gap-6">
+        {
+          footerLinks.map((link) => (
+            <SocialLink
+              href={link.url}
+              name={link.label}
+              icon={link.icon}
+              size="md"
+              showLabel
+            />
+          ))
+        }
+      </D>
+    </D>
+
+    <D class="flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-4 pt-8 border-t border-white/5 text-[11px] text-white/40 tracking-wide">
+      <a href="#inicio">
+        <img
+          src={logo.src}
+          alt={logo.alt}
+          class="h-14 w-auto opacity-80 hover:opacity-100 transition-opacity logo-metallic"
+          loading="lazy"
+        />
+      </a>
+      <p class="text-center">{footer.copyright}</p>
+    </D>
+  </D>
+</footer>

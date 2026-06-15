@@ -1,0 +1,223 @@
+---
+import { discographySection, getDiscographyTracks } from "@/data/music";
+import { socials } from "@/data/socials";
+import { site } from "@/data/site";
+import MusicModal from "@/components/MusicModal.astro";
+import SocialIcons from "@/components/icons/SocialIcons.astro";
+
+const allTracks = getDiscographyTracks();
+const Box = "div";
+
+function formatReleaseDate(date: string) {
+  return new Date(`${date}T12:00:00`)
+    .toLocaleDateString("es-ES", { day: "numeric", month: "short", year: "numeric" })
+    .replace(/\./g, "")
+    .toUpperCase();
+}
+
+function formatIndex(index: number) {
+  return String(index + 1).padStart(2, "0");
+}
+
+const platformLinks = [
+  { id: "spotify", href: socials.spotify, label: "Spotify" },
+  { id: "youtube", href: socials.youtube, label: "YouTube" },
+  { id: "apple", href: socials.appleMusic, label: "Apple Music" },
+  { id: "tiktok", href: socials.tiktok, label: "TikTok" },
+] as const;
+---
+
+<section
+  id={discographySection.id}
+  class="discography-catalog relative overflow-hidden section-pad bg-void"
+  data-discography-catalog
+>
+  <Box class="discography-catalog__ambient pointer-events-none absolute inset-0" aria-hidden="true"></Box>
+
+  <Box class="container-main relative z-10">
+    <Box class="discography-catalog__header text-center mb-14 sm:mb-20 lg:mb-24 reveal" data-reveal="up">
+      <p class="discography-catalog__eyebrow text-[10px] sm:text-[11px] tracking-[0.4em] text-gold/80 uppercase mb-3">
+        {discographySection.eyebrow}
+      </p>
+      <h2 class="discography-catalog__title heading-section text-gold">{discographySection.title}</h2>
+      <Box class="discography-catalog__title-rule mx-auto mt-6" data-reveal-line>
+        <span class="discography-catalog__spark" aria-hidden="true"></span>
+      </Box>
+      <img
+        src={site.logo.src}
+        alt=""
+        class="discography-catalog__mark mx-auto mt-5 h-8 sm:h-9 w-auto opacity-70 logo-metallic"
+        width={site.logo.width}
+        height={site.logo.height}
+        aria-hidden="true"
+        loading="lazy"
+        decoding="async"
+      />
+    </Box>
+
+    <Box class="discography-catalog__list" data-discography-list>
+      {
+        allTracks.length === 0 ? (
+          <p class="text-center text-white/45 text-sm tracking-wide py-12">
+            La discografía se actualizará automáticamente cuando publiques más canciones en YouTube.
+          </p>
+        ) : (
+          allTracks.map((track, index) => {
+            const reversed = index % 2 === 1;
+            const indexLabel = formatIndex(index);
+
+            return (
+              <>
+                <article
+                  class:list={[
+                    "discography-catalog__row discography-card",
+                    reversed && "discography-catalog__row--reverse",
+                  ]}
+                  data-discography-row
+                  data-reverse={reversed ? "true" : "false"}
+                >
+                  <Box class="discography-catalog__art group" data-discography-art>
+                    <Box class="discography-catalog__art-frame discography-card__media relative aspect-square overflow-hidden bg-void-900">
+                      <img
+                        src={track.thumbnail}
+                        alt={`Portada — ${track.title}`}
+                        class="discography-catalog__img music-cover-img absolute inset-0 w-full h-full object-cover"
+                        style={`object-position: ${track.thumbnailObjectPosition}`}
+                        data-fallback={track.thumbnailFallback}
+                        data-fallback-alt={track.thumbnailFallbackAlt}
+                        loading="lazy"
+                        decoding="async"
+                        width={640}
+                        height={640}
+                      />
+                      <Box class="discography-catalog__art-overlay absolute inset-0" aria-hidden="true"></Box>
+                      <Box class="discography-catalog__art-shine absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" aria-hidden="true"></Box>
+                      <Box class="discography-catalog__art-border absolute inset-0 pointer-events-none" aria-hidden="true"></Box>
+                    </Box>
+                  </Box>
+
+                  <Box class="discography-catalog__content" data-discography-content>
+                    <Box class="discography-catalog__index-row flex items-center gap-3 mb-4 sm:mb-5">
+                      <span class="discography-catalog__index font-display text-gold/90">{indexLabel}</span>
+                      <span
+                        class="discography-catalog__index-line flex-1 max-w-[4.5rem] h-px bg-gold/35"
+                        data-discography-index-line
+                        aria-hidden="true"
+                      ></span>
+                    </Box>
+
+                    <h3 class="discography-catalog__track-title font-display text-white uppercase tracking-[0.06em] leading-tight">
+                      {track.title}
+                    </h3>
+
+                    <time
+                      class="discography-catalog__date block mt-2 sm:mt-3 text-[10px] sm:text-[11px] tracking-[0.28em] text-gold/55 uppercase"
+                      datetime={track.releaseDate}
+                    >
+                      {formatReleaseDate(track.releaseDate)}
+                    </time>
+
+                    {
+                      track.description && (
+                        <p class="discography-catalog__desc mt-5 sm:mt-6 max-w-xl text-sm sm:text-[0.95rem] leading-relaxed text-white/58">
+                          {track.description}
+                        </p>
+                      )
+                    }
+
+                    <Box class="discography-catalog__actions flex flex-wrap gap-3 sm:gap-4 mt-7 sm:mt-8">
+                      <button
+                        type="button"
+                        class="discography-catalog__btn discography-catalog__btn--listen"
+                        data-music-open
+                        data-title={track.title}
+                        data-thumbnail={track.thumbnail}
+                        data-thumbnail-fallback={track.thumbnailFallback}
+                        data-thumbnail-fallback-alt={track.thumbnailFallbackAlt}
+                        data-spotify={track.spotify}
+                        data-youtube={track.youtube}
+                        data-apple={track.appleMusic}
+                        aria-label={`Escuchar ${track.title}`}
+                      >
+                        <svg class="w-3 h-3 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                          <path d="M8 5v14l11-7z"></path>
+                        </svg>
+                        Escuchar
+                      </button>
+                      <button
+                        type="button"
+                        class="discography-catalog__btn discography-catalog__btn--video"
+                        data-video-open
+                        data-title={track.title}
+                        data-youtube-id={track.youtubeId}
+                        data-thumbnail={track.thumbnail}
+                        aria-label={`Ver video de ${track.title}`}
+                      >
+                        <SocialIcons icon="youtube" class="w-3.5 h-3.5 shrink-0" />
+                        Ver Video
+                      </button>
+                    </Box>
+
+                    <Box class="discography-catalog__platforms flex flex-wrap items-center gap-3 sm:gap-4 mt-5 sm:mt-6">
+                      {
+                        platformLinks.map((platform) => (
+                          <a
+                            href={platform.id === "youtube" ? track.youtube : platform.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="discography-catalog__platform"
+                            aria-label={`${platform.label} — ${track.title}`}
+                          >
+                            <SocialIcons icon={platform.id} class="w-4 h-4" />
+                          </a>
+                        ))
+                      }
+                    </Box>
+                  </Box>
+                </article>
+
+                {index < allTracks.length - 1 && (
+                  <Box class="discography-catalog__divider" data-discography-divider aria-hidden="true">
+                    <span class="discography-catalog__divider-line" data-discography-divider-line></span>
+                    <span class="discography-catalog__spark discography-catalog__spark--sm" data-discography-spark></span>
+                    <img
+                      src={site.logo.src}
+                      alt=""
+                      class="discography-catalog__divider-mark h-6 w-auto opacity-50 logo-metallic"
+                      width={site.logo.width}
+                      height={site.logo.height}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </Box>
+                )}
+              </>
+            );
+          })
+        )
+      }
+    </Box>
+
+    <Box class="discography-catalog__footer-rule reveal mt-16 sm:mt-20 lg:mt-24" data-reveal="fade" data-reveal-delay="150">
+      <span class="discography-catalog__divider-line"></span>
+      <span class="discography-catalog__spark"></span>
+      <img
+        src={site.logo.src}
+        alt=""
+        class="discography-catalog__divider-mark h-7 w-auto opacity-55 logo-metallic mx-auto mt-4"
+        width={site.logo.width}
+        height={site.logo.height}
+        loading="lazy"
+        decoding="async"
+      />
+    </Box>
+
+    <Box class="flex justify-center mt-12 sm:mt-14 reveal" data-reveal="fade" data-reveal-delay="200">
+      <a href={discographySection.cta.href} target="_blank" rel="noopener noreferrer" class="btn-outline">
+        {discographySection.cta.label}
+      </a>
+    </Box>
+  </Box>
+
+  <MusicModal />
+</section>

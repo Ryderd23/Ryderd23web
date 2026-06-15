@@ -1,0 +1,19 @@
+# dependencies
+node_modules/
+
+# astro
+dist/
+.astro/
+
+# next (legacy)
+.next/
+out/
+
+# env
+.env
+.env.*
+!.env.example
+
+# misc
+.DS_Store
+*.log

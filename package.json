@@ -1,0 +1,29 @@
+{
+  "name": "ryderd23-landing",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "optimize:hero": "node scripts/optimize-hero.mjs",
+    "sync:youtube": "node scripts/sync-youtube.mjs",
+    "prebuild": "node scripts/sync-youtube.mjs"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@astrojs/tailwind": "^6.0.2",
+    "@emailjs/browser": "^4.4.1",
+    "animejs": "^3.2.2",
+    "astro": "^5.1.5",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.7.2"
+  },
+  "devDependencies": {
+    "@types/animejs": "^3.1.13",
+    "sharp": "^0.34.5"
+  },
+  "packageManager": "pnpm@9.15.4"
+}

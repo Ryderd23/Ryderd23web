@@ -1,0 +1,46 @@
+---
+import { platformCards, platformsSection } from "@/data/socials";
+import SocialIcons from "@/components/icons/SocialIcons.astro";
+
+const Box = "div";
+---
+
+<section id={platformsSection.id} class="section-pad">
+  <Box class="container-main">
+    <Box class="text-center mb-14 reveal">
+      <p class="text-[10px] tracking-[0.35em] text-gold uppercase mb-2">{platformsSection.eyebrow}</p>
+      <h2 class="heading-section text-white">{platformsSection.title}</h2>
+      <Box class="w-16 h-px bg-gold/50 mx-auto mt-6" data-reveal-line />
+    </Box>
+
+    <Box class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+      {
+        platformCards.map((p) => (
+          <a
+            href={p.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="group reveal platform-card glass-panel rounded-sm p-8 md:p-10 flex flex-col items-center text-center gap-6 min-h-[280px] justify-center border border-white/[0.06] hover:border-gold/35 transition-all duration-500"
+            data-platform-card
+          >
+            <Box
+              class="w-20 h-20 rounded-full flex items-center justify-center transition-transform duration-500 group-hover:scale-110 group-hover:shadow-gold"
+              style={`background: ${p.color}18; color: ${p.color}`}
+            >
+              <SocialIcons icon={p.icon} class="w-10 h-10" />
+            </Box>
+            <Box>
+              <p class="font-display text-2xl tracking-widest text-white group-hover:text-gold-light transition-colors">
+                {p.label}
+              </p>
+              <p class="text-sm text-white/45 mt-2">{p.description}</p>
+            </Box>
+            <span class="btn-outline text-[10px] px-5 py-2.5 group-hover:bg-gold/10 group-hover:shadow-gold-sm transition-all">
+              {p.cta} →
+            </span>
+          </a>
+        ))
+      }
+    </Box>
+  </Box>
+</section>

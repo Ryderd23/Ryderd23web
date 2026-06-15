@@ -1,0 +1,53 @@
+---
+import SocialIcons from "@/components/icons/SocialIcons.astro";
+
+interface Props {
+  href: string;
+  name: string;
+  icon: "spotify" | "youtube" | "apple" | "tiktok" | "instagram";
+  size?: "sm" | "md" | "lg" | "xl";
+  showLabel?: boolean;
+  class?: string;
+}
+
+const { href, name, icon, size = "md", showLabel = false, class: className = "" } = Astro.props;
+
+const sizeMap = {
+  sm: { btn: "w-9 h-9", icon: "w-4 h-4" },
+  md: { btn: "w-11 h-11", icon: "w-5 h-5" },
+  lg: { btn: "w-14 h-14", icon: "w-6 h-6" },
+  xl: { btn: "w-16 h-16", icon: "w-7 h-7" },
+};
+const s = sizeMap[size];
+---
+
+<a
+  href={href}
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label={name}
+  data-social-link
+  data-social={icon}
+  class:list={[
+    "social-link group inline-flex flex-col items-center gap-2",
+    className,
+  ]}
+>
+  <span
+    class:list={[
+      "social-link__btn flex items-center justify-center rounded-full glass-panel",
+      "border border-white/10 text-gold/90",
+      "transition-all duration-300",
+      "group-hover:border-gold/50 group-hover:text-gold group-hover:shadow-gold",
+      "group-hover:scale-110",
+      s.btn,
+    ]}
+  >
+    <SocialIcons icon={icon} class={s.icon} />
+  </span>
+  {showLabel && (
+    <span class="text-[10px] tracking-[0.2em] uppercase text-white/50 group-hover:text-gold transition-colors">
+      {name}
+    </span>
+  )}
+</a>

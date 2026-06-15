@@ -1,0 +1,96 @@
+---
+import { latestReleaseSection, getFeaturedTrack } from "@/data/music";
+
+const track = getFeaturedTrack();
+const Box = "div";
+if (!track) throw new Error("No hay lanzamientos. Ejecuta pnpm sync:youtube o revisa src/data/generated/youtube-tracks.json");
+---
+
+<section
+  id={latestReleaseSection.id}
+  class="latest-release relative overflow-hidden section-pad bg-void"
+  data-latest-release
+>
+  <Box class="latest-release__glow pointer-events-none absolute inset-0" aria-hidden="true"></Box>
+  <Box class="latest-release__glow latest-release__glow--secondary pointer-events-none absolute inset-0" aria-hidden="true"></Box>
+  <canvas
+    id="latest-release-dust"
+    class="latest-release__dust absolute inset-0 z-[1] pointer-events-none"
+    aria-hidden="true"
+  ></canvas>
+
+  <Box class="container-main relative z-10 max-w-5xl mx-auto">
+    <Box class="text-center reveal latest-release__header" data-reveal="up">
+      <p class="text-[10px] tracking-[0.35em] text-gold uppercase mb-2">{latestReleaseSection.eyebrow}</p>
+      <h2 class="heading-section">{latestReleaseSection.title}</h2>
+      <Box class="w-16 h-px bg-gold/50 mx-auto mt-5" data-reveal-line />
+    </Box>
+
+    <Box class="latest-release__hero reveal" data-reveal="scale">
+      <Box class="latest-release__badge">{latestReleaseSection.badge}</Box>
+
+      <h3 class="latest-release__title font-display text-white text-center">
+        {track.title.toUpperCase()}
+      </h3>
+
+      {
+        track.description && (
+          <p class="latest-release__desc text-center mx-auto">
+            {track.description}
+          </p>
+        )
+      }
+
+      <!-- Video principal — pieza central -->
+      <Box class="latest-release__stage" data-latest-player>
+        <Box class="latest-release__stage-frame group">
+          <Box class="latest-release__stage-glow" aria-hidden="true"></Box>
+
+          <Box class="latest-release__player-facade relative aspect-video overflow-hidden rounded-sm bg-void-900">
+            <img
+              src={track.thumbnail}
+              alt={`Video — ${track.title}`}
+              class="latest-release__poster absolute inset-0 w-full h-full object-cover music-cover-img"
+              style={`object-position: ${track.thumbnailObjectPosition}`}
+              data-fallback={track.thumbnailFallback}
+              data-fallback-alt={track.thumbnailFallbackAlt}
+              loading="eager"
+              decoding="async"
+              width={1280}
+              height={720}
+            />
+            <Box class="latest-release__player-vignette absolute inset-0" aria-hidden="true"></Box>
+            <Box class="latest-release__player-shine absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" aria-hidden="true"></Box>
+
+            <button
+              type="button"
+              class="latest-release__player-play absolute inset-0 flex flex-col items-center justify-center gap-4 z-10"
+              data-latest-play
+              data-youtube-id={track.youtubeId}
+              aria-label={`Reproducir ${track.title}`}
+            >
+              <span class="latest-release__play-btn">
+                <svg class="w-9 h-9 text-void ml-1" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M8 5v14l11-7z"></path>
+                </svg>
+              </span>
+              <span class="latest-release__play-label btn-gold min-h-[48px] px-8 pointer-events-none">
+                {latestReleaseSection.ctaPlay}
+              </span>
+            </button>
+
+            <iframe
+              class="latest-release__player-iframe absolute inset-0 w-full h-full hidden border-0"
+              title={`Reproductor — ${track.title}`}
+              data-latest-iframe
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+            ></iframe>
+          </Box>
+
+          <Box class="latest-release__stage-border" aria-hidden="true"></Box>
+        </Box>
+      </Box>
+    </Box>
+  </Box>
+</section>

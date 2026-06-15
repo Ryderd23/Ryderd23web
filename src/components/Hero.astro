@@ -1,0 +1,164 @@
+---
+import { site } from "@/data/site";
+import { heroCtas } from "@/data/socials";
+import SocialIcons from "@/components/icons/SocialIcons.astro";
+
+const { artist, hero } = site;
+const Box = "div";
+---
+
+<section id="inicio" class="hero-section relative flex items-stretch overflow-hidden bg-void">
+  <Box class="hero-navbar-zone" aria-hidden="true"></Box>
+  <Box class="hero-media absolute z-0" data-hero-media>
+    <Box class="hero-bg-stage" data-hero-stage>
+      <Box class="hero-bg-stage-inner">
+        <picture class="hero-picture hero-picture--base">
+          <source
+            media="(max-width: 1023px)"
+            srcset={hero.heroImageMobile}
+            type="image/webp"
+          />
+          <source srcset={hero.heroImage} type="image/webp" />
+          <img
+            src={hero.heroImageFallback}
+            alt=""
+            class="hero-bg-img hero-bg-img--base"
+            loading="eager"
+            fetchpriority="high"
+            width="2560"
+            height="1440"
+            aria-hidden="true"
+          />
+        </picture>
+
+        <picture class="hero-picture hero-picture--blur">
+          <source
+            media="(max-width: 1023px)"
+            srcset={hero.heroImageMobile}
+            type="image/webp"
+          />
+          <source srcset={hero.heroImage} type="image/webp" />
+          <img
+            src={hero.heroImageFallback}
+            alt=""
+            class="hero-bg-img hero-bg-img--blur"
+            loading="eager"
+            fetchpriority="high"
+            width="2560"
+            height="1440"
+            aria-hidden="true"
+          />
+        </picture>
+
+        <picture class="hero-picture hero-picture--face">
+          <source
+            media="(max-width: 1023px)"
+            srcset={hero.heroImageMobile}
+            type="image/webp"
+          />
+          <source srcset={hero.heroImage} type="image/webp" />
+          <img
+            src={hero.heroImageFallback}
+            alt=""
+            class="hero-bg-img hero-bg-img--face"
+            loading="eager"
+            fetchpriority="high"
+            width="2560"
+            height="1440"
+            aria-hidden="true"
+          />
+        </picture>
+      </Box>
+    </Box>
+
+    <img
+      src={hero.heroImage}
+      alt={artist.name}
+      class="sr-only"
+      width="2560"
+      height="1440"
+    />
+
+    <Box class="hero-grade" aria-hidden="true" />
+    <Box class="hero-face-lift" aria-hidden="true" />
+    <Box class="hero-street-glow" aria-hidden="true" />
+    <Box class="hero-reflections" aria-hidden="true" />
+    <Box class="hero-cold-accent" aria-hidden="true" />
+    <Box class="hero-overlay" aria-hidden="true" />
+    <Box class="hero-face-reveal" aria-hidden="true" />
+    <Box class="hero-film-grain" aria-hidden="true" />
+  </Box>
+
+  <canvas
+    id="hero-particles"
+    class="hero-particles absolute inset-0 z-[1] pointer-events-none"
+    aria-hidden="true"
+  ></canvas>
+
+  <Box
+    class="hero-content-wrap relative z-10 flex flex-col justify-end lg:justify-center w-full lg:max-w-[52%] xl:max-w-[48%] lg:ml-auto items-center lg:items-end text-center lg:text-right"
+  >
+    <Box class="hero-content max-w-2xl w-full" data-hero-content>
+      <Box
+        class="flex items-center justify-center lg:justify-end gap-2 text-gold mb-3 sm:mb-4 opacity-0"
+        data-hero-item
+      >
+        <span class="text-[10px] sm:text-xs tracking-[0.28em] uppercase">{artist.tagline}</span>
+        <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7-6.3-4.6L5.7 21l2.3-7-6-4.6h7.6L12 2z" />
+        </svg>
+      </Box>
+
+      <h1 class="heading-display hero-title text-white opacity-0" data-hero-item>
+        {artist.displayName}
+      </h1>
+
+      <p class="text-script hero-slogan mt-4 sm:mt-5 max-w-md mx-auto lg:ml-auto lg:mr-0 opacity-0" data-hero-item>
+        &ldquo;{artist.slogan}&rdquo;
+      </p>
+
+      <Box class="hero-cta-row flex flex-wrap justify-center lg:justify-end gap-3 sm:gap-4 mt-8 sm:mt-10 opacity-0" data-hero-item>
+        <a
+          href={heroCtas.spotify.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-gold hero-cta"
+          data-hero-cta
+        >
+          <SocialIcons icon="spotify" class="w-4 h-4" />
+          {heroCtas.spotify.label}
+        </a>
+        <a
+          href={heroCtas.youtube.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-outline hero-cta"
+          data-hero-cta
+        >
+          <SocialIcons icon="youtube" class="w-4 h-4" />
+          {heroCtas.youtube.label}
+        </a>
+      </Box>
+    </Box>
+
+    <Box
+      class="hero-scroll-wrap absolute bottom-6 sm:bottom-10 right-5 sm:right-8 lg:right-8 flex flex-col items-center gap-2 text-white/35 opacity-0"
+      data-hero-item
+    >
+      <span class="text-[9px] tracking-[0.35em] uppercase [writing-mode:vertical-lr] rotate-180 hidden sm:block"
+        >RYDERD23</span
+      >
+      <Box class="hero-scroll-line w-px h-10 bg-gradient-to-b from-gold/70 to-transparent" />
+    </Box>
+  </Box>
+
+  <Box
+    class="hidden xl:flex absolute left-6 top-1/2 -translate-y-1/2 z-10 flex-col items-center gap-4 text-white/20"
+    aria-hidden="true"
+  >
+    <Box class="w-px h-24 bg-gradient-to-b from-transparent via-gold/40 to-transparent" />
+    <span class="font-display text-sm tracking-[0.3em] [writing-mode:vertical-lr] rotate-180">
+      {artist.verticalLabel}
+    </span>
+  </Box>
+</section>

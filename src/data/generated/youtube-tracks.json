@@ -1,0 +1,105 @@
+{
+  "syncedAt": "2026-06-15T01:15:40.085Z",
+  "source": "youtube-rss",
+  "channelId": "UC1o0gaHBISvYRr1--eVJo0A",
+  "channelTitle": "Ryderd23",
+  "channelHandle": "@Ryderd23",
+  "uploadsPlaylistId": "",
+  "stats": {
+    "uploadsTotal": 15,
+    "musicalTotal": 8,
+    "imported": 8,
+    "excluded": 7,
+    "rssLimitNote": "El feed RSS de YouTube incluye como máximo ~15 videos recientes."
+  },
+  "tracks": [
+    {
+      "title": "Me gustas",
+      "youtube": "https://www.youtube.com/watch?v=2PO_Vy1JB4s",
+      "releaseDate": "2026-03-10",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/2PO_Vy1JB4s/hqdefault.jpg",
+      "thumbnailQuality": "hqdefault",
+      "thumbnailObjectPosition": "center center",
+      "durationSeconds": 164,
+      "kind": "video"
+    },
+    {
+      "title": "Noches con tu nombre - Zailer La R, El Champions, Ryderd23",
+      "youtube": "https://www.youtube.com/watch?v=8bOljLsdX4g",
+      "releaseDate": "2026-01-14",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/8bOljLsdX4g/hqdefault.jpg",
+      "thumbnailQuality": "hqdefault",
+      "thumbnailObjectPosition": "center center",
+      "durationSeconds": 267,
+      "kind": "video"
+    },
+    {
+      "title": "Dime",
+      "youtube": "https://www.youtube.com/watch?v=XkxN0A8nGck",
+      "releaseDate": "2025-09-17",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/XkxN0A8nGck/hqdefault.jpg",
+      "thumbnailQuality": "hqdefault",
+      "thumbnailObjectPosition": "center center",
+      "durationSeconds": 224,
+      "kind": "video"
+    },
+    {
+      "title": "NLGR",
+      "youtube": "https://www.youtube.com/watch?v=SZpnFvYT3T8",
+      "releaseDate": "2025-08-24",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/SZpnFvYT3T8/hqdefault.jpg",
+      "thumbnailQuality": "hqdefault",
+      "thumbnailObjectPosition": "center center",
+      "durationSeconds": 134,
+      "kind": "video"
+    },
+    {
+      "title": "NLGR",
+      "youtube": "https://www.youtube.com/watch?v=fFLVF16N7Tw",
+      "releaseDate": "2025-07-23",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/fFLVF16N7Tw/hqdefault.jpg",
+      "thumbnailQuality": "hqdefault",
+      "thumbnailObjectPosition": "center center",
+      "durationSeconds": 117,
+      "kind": "video"
+    },
+    {
+      "title": "Abayarde - Ryderd23, Zailer la R, Zaraut AD (23 version)",
+      "youtube": "https://www.youtube.com/watch?v=tv0EW1u1N4o",
+      "releaseDate": "2025-04-28",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/tv0EW1u1N4o/hqdefault.jpg",
+      "thumbnailQuality": "hqdefault",
+      "thumbnailObjectPosition": "center center",
+      "durationSeconds": 215,
+      "kind": "video"
+    },
+    {
+      "title": "Tussi - Jeison la sustancia, Apocalipsis, Ryderd²³ (audio oficial)",
+      "youtube": "https://www.youtube.com/watch?v=xSMDa7c3SbE",
+      "releaseDate": "2025-04-05",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/xSMDa7c3SbE/hqdefault.jpg",
+      "thumbnailQuality": "hqdefault",
+      "thumbnailObjectPosition": "center center",
+      "durationSeconds": 164,
+      "kind": "video"
+    },
+    {
+      "title": "Ploop - Zailer la R, Jeison la sustancia, Ryderd²³ (video visualizer)",
+      "youtube": "https://www.youtube.com/watch?v=7PUFZDEVDQg",
+      "releaseDate": "2025-03-25",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/7PUFZDEVDQg/hqdefault.jpg",
+      "thumbnailQuality": "hqdefault",
+      "thumbnailObjectPosition": "center center",
+      "durationSeconds": 155,
+      "kind": "video"
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "_readme": "Catálogo central de lanzamientos. Añade canciones aquí manualmente; el sync de YouTube las complementa automáticamente. Campos mínimos: title, youtube, releaseDate (YYYY-MM-DD).",
+  "channel": {
+    "handle": "Ryderd23",
+    "youtubeChannelId": "UC1o0gaHBISvYRr1--eVJo0A"
+  },
+  "releases": [
+    {
+      "title": "Me Gustas",
+      "youtube": "https://www.youtube.com/watch?v=2PO_Vy1JB4s",
+      "releaseDate": "2026-06-01",
+      "description": "",
+      "thumbnailQuality": "maxresdefault",
+      "thumbnailObjectPosition": "center center"
+    },
+    {
+      "title": "DIME",
+      "youtube": "https://www.youtube.com/watch?v=XkxN0A8nGck",
+      "releaseDate": "2026-04-15",
+      "description": "",
+      "thumbnailQuality": "hqdefault",
+      "thumbnailObjectPosition": "center center"
+    },
+    {
+      "title": "NLGR",
+      "youtube": "https://www.youtube.com/watch?v=SZpnFvYT3T8",
+      "releaseDate": "2025-08-24",
+      "description": "",
+      "thumbnailQuality": "hqdefault",
+      "thumbnailObjectPosition": "center center"
+    },
+    {
+      "title": "Noches Con Tu Nombre",
+      "youtube": "https://www.youtube.com/watch?v=8bOljLsdX4g",
+      "releaseDate": "2025-06-10",
+      "description": "",
+      "thumbnailQuality": "hqdefault",
+      "thumbnailObjectPosition": "center 42%"
+    }
+  ]
+}

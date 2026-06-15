@@ -1,0 +1,98 @@
+---
+import { site } from "@/data/site";
+
+const { gallery } = site;
+const Box = "div";
+---
+
+<section id={gallery.id} class="section-pad bg-void-950 overflow-hidden">
+  <Box class="container-main mb-10 reveal">
+    <h2 class="heading-section">{gallery.title}</h2>
+    <Box class="w-16 h-px bg-gold/50 mt-5 origin-left" data-reveal-line />
+  </Box>
+
+  <Box class="relative">
+    <Box
+      id="gallery-track"
+      class="flex gap-4 px-5 sm:px-8 lg:px-16 overflow-x-auto scroll-hide snap-x snap-mandatory pb-4"
+      data-reveal-group
+    >
+      {
+        gallery.images.map((img) => (
+          <Box class="gallery-item shrink-0 w-[min(72vw,280px)] sm:w-[280px] md:w-[320px] snap-center group relative aspect-[3/4] overflow-hidden bg-void-800 rounded-sm cursor-pointer" data-reveal-child data-reveal="scale">
+            <img
+              src={img.src}
+              alt={img.alt}
+              data-gallery-image={img.src}
+              class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+              loading="lazy"
+            />
+            <Box class="absolute inset-0 bg-black/0 group-hover:bg-black/25 transition-colors duration-300" />
+            <Box class="absolute inset-0 ring-1 ring-inset ring-white/0 group-hover:ring-gold/25 transition-all" />
+          </Box>
+        ))
+      }
+    </Box>
+
+    <!-- Botón Izquierda -->
+    <button
+      type="button"
+      class="hidden md:flex absolute left-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full items-center justify-center text-gold hover:shadow-gold-sm transition-all opacity-0 pointer-events-none bg-black/60 hover:bg-black/80 backdrop-blur-md border border-gold/20 hover:border-gold/40"
+      aria-label="Anterior"
+      data-gallery-prev
+    >
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-width="1.5" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+
+    <!-- Botón Derecha -->
+    <button
+      type="button"
+      class="hidden md:flex absolute right-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full items-center justify-center text-gold hover:shadow-gold-sm transition-all bg-black/60 hover:bg-black/80 backdrop-blur-md border border-gold/20 hover:border-gold/40"
+      aria-label="Siguiente"
+      data-gallery-next
+    >
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-width="1.5" d="M9 5l7 7-7 7" />
+      </svg>
+    </button>
+  </Box>
+</section>
+
+<!-- Modal/Lightbox para visualización de imágenes -->
+<div id="gallery-modal" class="fixed inset-0 z-50 hidden bg-black/95 backdrop-blur-sm flex items-center justify-center">
+  <img id="gallery-modal-image" src="" alt="Imagen galería" class="max-w-[90vw] max-h-[90vh] object-contain" />
+  
+  <!-- Botón cerrar -->
+  <button
+    id="gallery-modal-close"
+    class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center text-gold hover:text-gold/80 transition-colors"
+    aria-label="Cerrar"
+  >
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+    </svg>
+  </button>
+  
+  <!-- Botones de navegación dentro del modal -->
+  <button
+    id="gallery-modal-prev"
+    class="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full flex items-center justify-center text-gold bg-black/60 hover:bg-black/80 transition-all border border-gold/20 hover:border-gold/40"
+    aria-label="Anterior"
+  >
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-width="1.5" d="M15 19l-7-7 7-7" />
+    </svg>
+  </button>
+
+  <button
+    id="gallery-modal-next"
+    class="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full flex items-center justify-center text-gold bg-black/60 hover:bg-black/80 transition-all border border-gold/20 hover:border-gold/40"
+    aria-label="Siguiente"
+  >
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-width="1.5" d="M9 5l7 7-7 7" />
+    </svg>
+  </button>
+</div>

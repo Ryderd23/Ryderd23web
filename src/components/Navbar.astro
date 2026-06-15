@@ -1,0 +1,91 @@
+---
+import { site } from "@/data/site";
+import { navbarSocials } from "@/data/socials";
+import SocialLink from "@/components/ui/SocialLink.astro";
+
+const { logo, navigation } = site;
+---
+
+<header id="navbar" class="navbar-premium fixed top-0 left-0 right-0 z-50" data-navbar>
+  <div class="navbar-premium__glow" aria-hidden="true"></div>
+  <nav class="navbar-premium__inner container-main flex items-center justify-between gap-3 sm:gap-4 px-5 sm:px-8 lg:px-16">
+    <a href="#inicio" class="relative z-50 shrink-0" aria-label="Inicio">
+      <img
+        src={logo.src}
+        alt={logo.alt}
+        width={logo.width}
+        height={logo.height}
+        class="navbar-logo h-12 sm:h-14 md:h-[4.5rem] lg:h-24 xl:h-[6.5rem] w-auto object-contain logo-metallic"
+        loading="eager"
+      />
+    </a>
+
+    <ul class="hidden lg:flex items-center justify-center gap-5 xl:gap-8 flex-1">
+      {
+        navigation.map((item, i) => (
+          <li>
+            <a
+              href={item.href}
+              class:list={["nav-link", i === 0 && "nav-link-active"]}
+              data-nav-link
+            >
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="hidden lg:flex items-center gap-2 shrink-0">
+      {
+        navbarSocials.map((s) => (
+          <SocialLink href={s.url} name={s.name} icon={s.icon} size="sm" />
+        ))
+      }
+    </div>
+  </nav>
+  <div class="navbar-premium__border" aria-hidden="true"></div>
+
+  <button
+    type="button"
+    class="navbar-menu-btn lg:hidden fixed z-[60] p-2.5 text-gold rounded-full"
+    aria-label="Menú"
+    data-menu-toggle
+  >
+    <svg class="w-6 h-6 icon-open" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16" />
+    </svg>
+    <svg class="w-6 h-6 icon-close hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-width="1.5" d="M6 6l12 12M18 6L6 18" />
+    </svg>
+  </button>
+</header>
+
+<div
+  class="fixed inset-0 z-40 bg-void/96 backdrop-blur-2xl opacity-0 pointer-events-none lg:hidden"
+  data-mobile-menu
+>
+  <nav
+    class="h-full flex flex-col items-center justify-center gap-6 sm:gap-8 px-6 opacity-0"
+    data-mobile-panel
+  >
+    {
+      navigation.map((item) => (
+        <a
+          href={item.href}
+          class="font-display text-xl sm:text-2xl tracking-widest text-white hover:text-gold transition-colors opacity-0"
+          data-mobile-link
+        >
+          {item.label}
+        </a>
+      ))
+    }
+    <div class="flex flex-wrap justify-center gap-4 mt-4 max-w-sm opacity-0" data-mobile-social>
+      {
+        navbarSocials.map((s) => (
+          <SocialLink href={s.url} name={s.name} icon={s.icon} size="lg" />
+        ))
+      }
+    </div>
+  </nav>
+</div>

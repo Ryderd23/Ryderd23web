@@ -1,0 +1,79 @@
+---
+import { getLatestTrack } from "@/data/music";
+
+const track = getLatestTrack();
+const Box = "div";
+if (!track) return null;
+---
+
+<Box
+  id="floating-player"
+  class="floating-player"
+  data-floating-player
+  data-youtube-id={track.youtubeId}
+  data-track-title={track.title}
+  data-thumbnail={track.thumbnail}
+  aria-label="Reproductor de música flotante"
+>
+  <!-- Panel expandido -->
+  <Box class="floating-player__panel hidden" data-floating-panel>
+    <Box class="floating-player__panel-inner">
+      <img
+        src={track.thumbnail}
+        alt=""
+        class="floating-player__thumb music-cover-img"
+        data-fallback={track.thumbnailFallback}
+        data-fallback-alt={track.thumbnailFallbackAlt}
+        loading="lazy"
+        decoding="async"
+        width={48}
+        height={48}
+      />
+      <Box class="floating-player__info min-w-0 flex-1">
+        <p class="floating-player__title truncate">{track.title}</p>
+        <p class="floating-player__artist truncate">Ryderd23</p>
+      </Box>
+      <button
+        type="button"
+        class="floating-player__control"
+        data-floating-play
+        aria-label="Reproducir"
+        aria-pressed="false"
+      >
+        <svg class="w-5 h-5 floating-player__icon-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M8 5v14l11-7z"></path>
+        </svg>
+        <svg class="w-5 h-5 floating-player__icon-pause hidden" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"></path>
+        </svg>
+      </button>
+      <button type="button" class="floating-player__close" data-floating-close aria-label="Cerrar reproductor">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </Box>
+    <!-- iframe oculto hasta que el usuario pulse play -->
+    <iframe
+      class="floating-player__iframe hidden"
+      title={`Reproductor — ${track.title}`}
+      data-floating-iframe
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+    ></iframe>
+  </Box>
+
+  <!-- Botón flotante -->
+  <button
+    type="button"
+    class="floating-player__toggle"
+    data-floating-toggle
+    aria-label="Abrir reproductor de música"
+    aria-expanded="false"
+  >
+    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M12 3v10.55A4 4 0 1 0 14 17V7h4V3h-6z"></path>
+    </svg>
+    <span class="floating-player__pulse" aria-hidden="true"></span>
+  </button>
+</Box>

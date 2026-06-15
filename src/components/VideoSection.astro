@@ -1,0 +1,136 @@
+---
+import { videosSection, getSortedTracks } from "@/data/music";
+
+const videoTracks = getSortedTracks();
+const Box = "div";
+---
+
+<section id={videosSection.id} class="section-pad bg-void overflow-hidden relative">
+  <Box class="video-section__glow pointer-events-none absolute inset-0" aria-hidden="true"></Box>
+
+  <Box class="container-main relative z-10">
+    <Box class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10 sm:mb-14 reveal" data-reveal="up">
+      <Box>
+        <p class="text-[10px] tracking-[0.35em] text-gold uppercase mb-2">{videosSection.eyebrow}</p>
+        <h2 class="heading-section">{videosSection.title}</h2>
+        <Box class="w-16 h-px bg-gold/50 mt-5 origin-left" data-reveal-line />
+      </Box>
+      <a
+        href={videosSection.cta.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-xs tracking-[0.2em] text-gold hover:text-gold-light transition-colors flex items-center gap-2 shrink-0"
+      >
+        {videosSection.cta.label}
+        <span aria-hidden="true">→</span>
+      </a>
+    </Box>
+
+    <!-- Desktop: grid grande -->
+    <Box class="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-6 xl:gap-8" data-reveal-group>
+      {
+        videoTracks.map((track, i) => (
+          <article
+            class:list={["video-card-premium video-card-premium--featured", i === 0 && "md:col-span-2 lg:col-span-1"]}
+            data-reveal-child
+            data-reveal="up"
+          >
+            <button
+              type="button"
+              class="video-card-premium__trigger group w-full text-left"
+              data-video-open
+              data-title={track.title}
+              data-youtube-id={track.youtubeId}
+              data-thumbnail={track.thumbnail}
+              aria-label={`Reproducir video ${track.title}`}
+            >
+              <Box class="video-card-premium__media relative aspect-video overflow-hidden rounded-sm bg-void-800">
+                <img
+                  src={track.thumbnail}
+                  alt={`Video — ${track.title}`}
+                  class="video-card-premium__img music-cover-img absolute inset-0 w-full h-full object-cover"
+                  style={`object-position: ${track.thumbnailObjectPosition}`}
+                  data-fallback={track.thumbnailFallback}
+                  data-fallback-alt={track.thumbnailFallbackAlt}
+                  loading="lazy"
+                  decoding="async"
+                  width={640}
+                  height={360}
+                />
+                <Box class="video-card-premium__overlay absolute inset-0"></Box>
+                <Box class="video-card-premium__shine absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></Box>
+                <Box class="video-card-premium__play absolute inset-0 flex items-center justify-center">
+                  <span class="video-card-premium__play-btn opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500">
+                    <svg class="w-8 h-8 text-void ml-1" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                      <path d="M8 5v14l11-7z"></path>
+                    </svg>
+                  </span>
+                </Box>
+                <Box class="absolute bottom-0 left-0 right-0 z-10 p-5 bg-gradient-to-t from-black/90 to-transparent">
+                  <p class="font-display text-lg sm:text-xl tracking-wider text-white">{track.title}</p>
+                  <p class="text-[9px] tracking-[0.22em] text-gold/70 uppercase mt-1">Ver videoclip</p>
+                </Box>
+                <Box class="absolute inset-0 ring-1 ring-inset ring-white/10 group-hover:ring-gold/35 transition-all duration-500 rounded-sm"></Box>
+              </Box>
+            </button>
+          </article>
+        ))
+      }
+    </Box>
+
+    <!-- Mobile slider -->
+    <Box class="md:hidden relative -mx-5 sm:-mx-8">
+      <Box
+        class="flex gap-4 sm:gap-5 px-5 sm:px-8 pb-2 overflow-x-auto scroll-hide snap-x snap-mandatory"
+        data-reveal-group
+      >
+        {
+          videoTracks.map((track) => (
+            <article
+              class="video-card-premium shrink-0 w-[min(88vw,400px)] sm:w-[380px] snap-center"
+              data-reveal-child
+              data-reveal="scale"
+            >
+              <button
+                type="button"
+                class="video-card-premium__trigger group w-full text-left"
+                data-video-open
+                data-title={track.title}
+                data-youtube-id={track.youtubeId}
+                data-thumbnail={track.thumbnail}
+                aria-label={`Reproducir video ${track.title}`}
+              >
+                <Box class="video-card-premium__media relative aspect-video overflow-hidden rounded-sm bg-void-800">
+                  <img
+                    src={track.thumbnail}
+                    alt={`Video — ${track.title}`}
+                    class="video-card-premium__img music-cover-img absolute inset-0 w-full h-full object-cover"
+                    style={`object-position: ${track.thumbnailObjectPosition}`}
+                    data-fallback={track.thumbnailFallback}
+                    data-fallback-alt={track.thumbnailFallbackAlt}
+                    loading="lazy"
+                    decoding="async"
+                    width={640}
+                    height={360}
+                  />
+                  <Box class="video-card-premium__overlay absolute inset-0"></Box>
+                  <Box class="video-card-premium__play absolute bottom-4 right-4 z-10">
+                    <span class="video-card-premium__play-btn video-card-premium__play-btn--sm">
+                      <svg class="w-5 h-5 text-void ml-0.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M8 5v14l11-7z"></path>
+                      </svg>
+                    </span>
+                  </Box>
+                  <p class="absolute bottom-0 left-0 right-0 z-10 p-4 font-display text-base tracking-wider text-white bg-gradient-to-t from-black/90 to-transparent">
+                    {track.title}
+                  </p>
+                  <Box class="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-sm"></Box>
+                </Box>
+              </button>
+            </article>
+          ))
+        }
+      </Box>
+    </Box>
+  </Box>
+</section>

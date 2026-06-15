@@ -1,0 +1,173 @@
+---
+import { site } from "@/data/site";
+import { followSocials } from "@/data/socials";
+import SocialLink from "@/components/ui/SocialLink.astro";
+
+const { contact, logo } = site;
+const D = "div";
+---
+
+<section
+  id={contact.id}
+  class="contact-section relative overflow-hidden border-t border-gold/10"
+  data-contact-section
+>
+  <!-- Imagen principal -->
+  <D class="contact-section__media absolute inset-0 z-0" aria-hidden="true">
+    <img
+      src={contact.background}
+      alt=""
+      class="contact-section__img"
+      loading="lazy"
+      width="1024"
+      height="495"
+      decoding="async"
+    />
+  </D>
+
+  <!-- Capas cinematográficas -->
+  <D class="contact-section__overlay" aria-hidden="true"></D>
+  <D class="contact-section__grade" aria-hidden="true"></D>
+  <D class="contact-section__sun-glow" aria-hidden="true"></D>
+  <D class="contact-section__face-glow" aria-hidden="true"></D>
+  <D class="contact-section__smoke contact-section__smoke--a" aria-hidden="true"></D>
+  <D class="contact-section__smoke contact-section__smoke--b" aria-hidden="true"></D>
+  <D class="contact-section__vignette" aria-hidden="true"></D>
+  <D class="contact-section__grain" aria-hidden="true"></D>
+
+  <!-- Efectos dinámicos -->
+  <canvas
+    id="contact-gold-dust"
+    class="contact-section__dust absolute inset-0 z-[2] pointer-events-none"
+    aria-hidden="true"
+  ></canvas>
+  <canvas
+    id="contact-particles"
+    class="contact-section__particles absolute inset-0 z-[2] pointer-events-none"
+    aria-hidden="true"
+  ></canvas>
+
+  <!-- Contenido -->
+  <D class="contact-section__content relative z-10 section-pad">
+    <D class="container-main">
+      <D class="grid lg:grid-cols-2 gap-10 lg:gap-14 xl:gap-20 items-start">
+        <D class="contact-panel reveal">
+          <h2 class="heading-section mb-8">{contact.followTitle}</h2>
+          <D class="flex flex-wrap gap-4">
+            {
+              followSocials.map((s) => (
+                <SocialLink href={s.url} name={s.name} icon={s.icon} size="lg" showLabel />
+              ))
+            }
+          </D>
+          <img
+            src={logo.src}
+            alt={logo.alt}
+            class="mt-12 sm:mt-16 h-14 sm:h-16 w-auto opacity-80 hidden lg:block logo-metallic"
+            loading="lazy"
+          />
+        </D>
+
+        <D class="contact-panel reveal">
+          <h2 class="heading-section mb-2">{contact.formTitle}</h2>
+          <D class="w-12 h-px bg-gold/50 mb-8"></D>
+          <form
+            class="space-y-5"
+            id="contact-form"
+            data-contact-form
+            data-emailjs-service={contact.emailjs.serviceId}
+            data-emailjs-template={contact.emailjs.templateId}
+            data-emailjs-key={contact.emailjs.publicKey}
+          >
+            <D class="grid sm:grid-cols-2 gap-5">
+              <label class="block">
+                <span class="text-[10px] tracking-[0.2em] text-white/55 uppercase mb-2 block">
+                  {contact.fields.name.label}
+                </span>
+                <input
+                  type="text"
+                  name="name"
+                  required
+                  placeholder={contact.fields.name.placeholder}
+                  class="input-dark contact-input"
+                />
+              </label>
+              <label class="block">
+                <span class="text-[10px] tracking-[0.2em] text-white/55 uppercase mb-2 block">
+                  {contact.fields.email.label}
+                </span>
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  placeholder={contact.fields.email.placeholder}
+                  class="input-dark contact-input"
+                />
+              </label>
+            </D>
+            <label class="block">
+              <span class="text-[10px] tracking-[0.2em] text-white/55 uppercase mb-2 block">
+                {contact.fields.subject.label}
+              </span>
+              <input
+                type="text"
+                name="subject"
+                placeholder={contact.fields.subject.placeholder}
+                class="input-dark contact-input"
+              />
+            </label>
+            <label class="block">
+              <span class="text-[10px] tracking-[0.2em] text-white/55 uppercase mb-2 block">
+                {contact.fields.message.label}
+              </span>
+              <textarea
+                name="message"
+                required
+                rows={5}
+                placeholder={contact.fields.message.placeholder}
+                class="input-dark contact-input resize-none"
+              />
+            </label>
+            <button
+              type="submit"
+              class="btn-gold w-full sm:w-auto min-h-[48px] min-w-[12rem] relative"
+              data-contact-submit
+              aria-busy="false"
+            >
+              <span class="inline-flex items-center justify-center gap-2" data-contact-submit-idle>
+                <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
+                </svg>
+                <span data-contact-submit-label>{contact.submitLabel}</span>
+              </span>
+              <span
+                class="absolute inset-0 flex items-center justify-center gap-2 hidden"
+                data-contact-submit-loading
+                aria-hidden="true"
+              >
+                <svg
+                  class="h-4 w-4 shrink-0 animate-spin text-void"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  aria-hidden="true"
+                >
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" fill="none" />
+                  <path class="opacity-90" d="M4 12a8 8 0 018-8" stroke-linecap="round" />
+                </svg>
+                <span class="text-[10px] tracking-[0.2em] uppercase">Enviando…</span>
+              </span>
+            </button>
+            <p class="hidden contact-form-feedback contact-form-feedback--success text-sm mt-4 leading-relaxed" data-form-success role="status">
+              {contact.messages.success}
+            </p>
+            <p class="hidden contact-form-feedback contact-form-feedback--error text-sm mt-4 leading-relaxed" data-form-error role="alert">
+              {contact.messages.error}
+            </p>
+          </form>
+        </D>
+      </D>
+    </D>
+  </D>
+</section>

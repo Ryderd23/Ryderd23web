@@ -1,0 +1,53 @@
+---
+const Box = "div";
+---
+
+<Box
+  id="video-modal"
+  class="video-modal fixed inset-0 z-[85] flex items-center justify-center p-4 sm:p-6 opacity-0 pointer-events-none"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="video-modal-title"
+  aria-hidden="true"
+  hidden
+>
+  <button
+    type="button"
+    class="video-modal__backdrop absolute inset-0 bg-black/85 backdrop-blur-md"
+    data-video-close
+    aria-label="Cerrar"
+  ></button>
+
+  <Box class="video-modal__panel relative w-full max-w-4xl">
+    <Box class="video-modal__glow pointer-events-none absolute -inset-px rounded-sm opacity-60" aria-hidden="true"></Box>
+
+    <Box class="relative aspect-video w-full overflow-hidden rounded-sm bg-void-900 ring-1 ring-gold/20 shadow-cinematic">
+      <iframe
+        id="video-modal-iframe"
+        class="absolute inset-0 w-full h-full"
+        title="Video musical"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+      ></iframe>
+      <Box class="video-modal__placeholder absolute inset-0 flex items-center justify-center bg-void-900" data-video-placeholder>
+        <span class="w-10 h-10 border-2 border-gold/30 border-t-gold rounded-full animate-spin"></span>
+      </Box>
+    </Box>
+
+    <Box class="flex items-center justify-between gap-4 mt-5 px-1">
+      <h3 id="video-modal-title" class="font-display text-xl sm:text-2xl tracking-wider text-white truncate">
+        —
+      </h3>
+      <button
+        type="button"
+        class="video-modal__close shrink-0 w-10 h-10 flex items-center justify-center rounded-full border border-white/15 text-gold hover:border-gold/40 hover:bg-gold/10 transition-all"
+        data-video-close
+        aria-label="Cerrar video"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </Box>
+  </Box>
+</Box>

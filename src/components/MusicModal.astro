@@ -1,0 +1,97 @@
+---
+import SocialIcons from "@/components/icons/SocialIcons.astro";
+const Box = "div";
+---
+
+<Box
+  id="music-modal"
+  class="music-modal fixed inset-0 z-[80] flex items-center justify-center p-4 sm:p-6 opacity-0 pointer-events-none"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="music-modal-title"
+  aria-hidden="true"
+  hidden
+>
+  <button
+    type="button"
+    class="music-modal__backdrop absolute inset-0 bg-black/75 backdrop-blur-md"
+    data-music-close
+    aria-label="Cerrar"
+  ></button>
+
+  <Box class="music-modal__panel relative w-full max-w-md glass-panel border border-gold/20 rounded-lg overflow-hidden shadow-cinematic">
+    <Box class="music-modal__glow pointer-events-none absolute -inset-px rounded-lg opacity-60" aria-hidden="true"></Box>
+
+    <Box class="relative aspect-video w-full overflow-hidden bg-void-900">
+      <img
+        id="music-modal-cover"
+        src=""
+        alt=""
+        class="absolute inset-0 w-full h-full object-cover"
+        width="640"
+        height="360"
+      />
+      <Box class="absolute inset-0 bg-gradient-to-t from-void via-void/40 to-transparent"></Box>
+      <Box class="absolute inset-0 ring-1 ring-inset ring-white/10"></Box>
+    </Box>
+
+    <Box class="relative p-6 sm:p-8 text-center">
+      <h3 id="music-modal-title" class="font-display text-2xl sm:text-3xl tracking-wider text-white mb-2">
+        —
+      </h3>
+      <p class="text-sm text-white/55 mb-6 leading-relaxed">
+        ¿Dónde quieres escuchar esta canción?
+      </p>
+
+      <Box class="grid gap-3 sm:gap-4">
+        <a
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="music-modal__platform group"
+          data-music-platform="spotify"
+        >
+          <span class="music-modal__platform-icon text-[#1db954]">
+            <SocialIcons icon="spotify" class="w-6 h-6" />
+          </span>
+          <span class="music-modal__platform-label">Spotify</span>
+          <span class="music-modal__platform-arrow" aria-hidden="true">→</span>
+        </a>
+        <a
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="music-modal__platform group"
+          data-music-platform="youtube"
+        >
+          <span class="music-modal__platform-icon text-[#ff0000]">
+            <SocialIcons icon="youtube" class="w-6 h-6" />
+          </span>
+          <span class="music-modal__platform-label">YouTube</span>
+          <span class="music-modal__platform-arrow" aria-hidden="true">→</span>
+        </a>
+        <a
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="music-modal__platform group"
+          data-music-platform="apple"
+        >
+          <span class="music-modal__platform-icon text-[#fa243c]">
+            <SocialIcons icon="apple" class="w-6 h-6" />
+          </span>
+          <span class="music-modal__platform-label">Apple Music</span>
+          <span class="music-modal__platform-arrow" aria-hidden="true">→</span>
+        </a>
+      </Box>
+
+      <button
+        type="button"
+        class="mt-6 text-[10px] tracking-[0.3em] uppercase text-white/40 hover:text-gold transition-colors"
+        data-music-close
+      >
+        Cancelar
+      </button>
+    </Box>
+  </Box>
+</Box>

@@ -1,0 +1,84 @@
+---
+import "@/styles/global.css";
+import { site } from "@/data/site";
+import Navbar from "@/components/Navbar.astro";
+import Footer from "@/components/Footer.astro";
+import FloatingPlayer from "@/components/FloatingPlayer.astro";
+import VideoModal from "@/components/VideoModal.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = site.seo.title, description = site.seo.description } = Astro.props;
+const canonical = new URL(Astro.url.pathname, site.seo.url);
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content={site.theme.bg} />
+    <link rel="icon" type="image/png" href={site.logo.src} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(site.seo.ogImage, site.seo.url).href} />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <title>{title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://i.ytimg.com" crossorigin />
+    <link rel="preconnect" href="https://www.youtube.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;1,400;1,500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="film-grain">
+    <div id="page-loader" class="page-loader fixed inset-0 z-[100] flex flex-col items-center justify-center overflow-hidden">
+      <canvas id="loader-particles" class="absolute inset-0 w-full h-full pointer-events-none" aria-hidden="true"></canvas>
+      <div class="loader-vignette absolute inset-0 pointer-events-none" aria-hidden="true"></div>
+      <div class="loader-glow absolute inset-0 pointer-events-none" aria-hidden="true"></div>
+
+      <div class="loader-content relative z-10 flex flex-col items-center">
+        <div class="loader-logo-wrap relative flex items-center justify-center mb-8">
+          <span class="loader-ring loader-ring--outer" aria-hidden="true"></span>
+          <span class="loader-ring loader-ring--inner" aria-hidden="true"></span>
+          <img
+            src={site.logo.src}
+            alt=""
+            id="loader-logo"
+            class="loader-logo relative z-10 w-auto logo-metallic"
+            width={site.logo.width}
+            height={site.logo.height}
+          />
+        </div>
+        <p class="loader-text text-[10px] sm:text-xs tracking-[0.45em] text-gold/70 uppercase">Cargando</p>
+        <div class="loader-dots flex gap-2 mt-4" aria-hidden="true">
+          <span class="loader-dot"></span>
+          <span class="loader-dot"></span>
+          <span class="loader-dot"></span>
+        </div>
+      </div>
+
+      <div class="loader-bar-track absolute bottom-0 left-0 right-0 h-px bg-white/5">
+        <div class="loader-bar h-full bg-gradient-to-r from-transparent via-gold to-transparent w-0" id="loader-bar"></div>
+      </div>
+    </div>
+
+    <Navbar />
+    <slot />
+    <Footer />
+    <FloatingPlayer />
+    <VideoModal />
+
+    <script>
+      import "@/scripts/main.ts";
+    </script>
+  </body>
+</html>

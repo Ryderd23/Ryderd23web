@@ -1,0 +1,47 @@
+---
+import { socialFeed } from "@/data/socials";
+import SocialIcons from "@/components/icons/SocialIcons.astro";
+
+const Box = "div";
+---
+
+<section id={socialFeed.id} class="socials-premium section-pad relative overflow-hidden bg-void-950 border-y border-white/5">
+  <Box class="socials-premium__glow pointer-events-none absolute inset-0" aria-hidden="true"></Box>
+
+  <Box class="container-main relative z-10">
+    <Box class="text-center mb-12 sm:mb-16 reveal" data-reveal="up">
+      <p class="text-[10px] tracking-[0.35em] text-gold uppercase mb-2">{socialFeed.eyebrow}</p>
+      <h2 class="heading-section">{socialFeed.title}</h2>
+      <p class="mt-4 text-sm sm:text-base text-white/45 tracking-wide max-w-xl mx-auto">{socialFeed.subtitle}</p>
+      <Box class="w-16 h-px bg-gold/50 mx-auto mt-6" data-reveal-line />
+    </Box>
+
+    <Box class="socials-premium__grid grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 lg:gap-6" data-reveal-group>
+      {
+        socialFeed.items.map((item) => (
+          <a
+            href={item.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="socials-premium__card group"
+            data-reveal-child
+            data-reveal="scale"
+            data-social={item.id}
+            aria-label={`Seguir en ${item.name}`}
+          >
+            <Box class="socials-premium__card-glow" aria-hidden="true"></Box>
+            <Box class="socials-premium__icon-wrap">
+              <SocialIcons icon={item.icon} class="w-7 h-7 sm:w-8 sm:h-8" />
+            </Box>
+            <Box class="socials-premium__content">
+              <p class="socials-premium__name">{item.name}</p>
+              <p class="socials-premium__handle">{item.handle}</p>
+              <p class="socials-premium__stat">{item.stat}</p>
+            </Box>
+            <span class="socials-premium__arrow" aria-hidden="true">→</span>
+          </a>
+        ))
+      }
+    </Box>
+  </Box>
+</section>

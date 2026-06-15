@@ -1,0 +1,10 @@
+{
+  "_comment": "Edita este archivo para personalizar el Último Lanzamiento y el filtrado del catálogo.",
+  "description": "Romántico, urbano y directo al corazón. El sencillo que define el sonido actual de Ryderd23 — melodías emocionales, callejeras y profundas.",
+  "titleOverride": null,
+  "excludeVideoIds": ["jVl2l4cvOoE"],
+  "excludeTitlePatterns": [],
+  "filterShorts": true,
+  "filterReels": true,
+  "shortMaxDurationSeconds": 60
+}
