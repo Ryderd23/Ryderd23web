@@ -364,20 +364,6 @@
   transform: scale(0.92);
 }
 
-.navbar-menu-btn {
-  top: calc(var(--navbar-height) * 0.5 - 1.25rem);
-  right: 1.25rem;
-  background: rgba(5, 5, 5, 0.65);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(212, 175, 55, 0.2);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45);
-  transition: top 0.65s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.navbar-premium.navbar--scrolled .navbar-menu-btn {
-  top: calc(var(--navbar-height-scrolled) * 0.5 - 1.1rem);
-}
-
 @media (max-width: 1023px) {
   :root {
     --navbar-height: var(--navbar-height-mobile);
@@ -386,10 +372,6 @@
   .navbar-premium__inner {
     padding-left: max(1.25rem, env(safe-area-inset-left));
     padding-right: max(1.25rem, env(safe-area-inset-right));
-  }
-
-  .navbar-menu-btn {
-    right: max(1.25rem, env(safe-area-inset-right));
   }
 }
 
@@ -921,10 +903,11 @@
   }
 
   .hero-scroll-wrap {
-    right: auto;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: 1.25rem;
+    right: max(1.25rem, env(safe-area-inset-right));
+    left: auto;
+    bottom: max(1.25rem, env(safe-area-inset-bottom));
+    transform: none;
+    align-items: center;
   }
 
   .hero-overlay {
@@ -962,11 +945,6 @@
   .hero-cta-row .btn-outline {
     width: 100%;
   }
-}
-
-/* Menú móvil */
-[data-mobile-menu].is-open [data-mobile-panel] {
-  opacity: 1;
 }
 
 .scroll-hide::-webkit-scrollbar {

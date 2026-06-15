@@ -516,13 +516,6 @@ function initScrollReveal() {
 function initNavbar() {
   const navbar = document.querySelector<HTMLElement>("[data-navbar]");
   const links = document.querySelectorAll("[data-nav-link]");
-  const menu = document.querySelector<HTMLElement>("[data-mobile-menu]");
-  const menuPanel = document.querySelector<HTMLElement>("[data-mobile-panel]");
-  const toggle = document.querySelector("[data-menu-toggle]");
-  const iconOpen = toggle?.querySelector(".icon-open");
-  const iconClose = toggle?.querySelector(".icon-close");
-  const mobileLinks = document.querySelectorAll<HTMLElement>("[data-mobile-link]");
-  let menuOpen = false;
   let scrollTicking = false;
 
   const updateNavbarOnScroll = () => {
@@ -590,80 +583,6 @@ function initNavbar() {
 
     sectionEls.forEach((el) => observer.observe(el));
   }
-
-  const openMenu = () => {
-    if (!menu || !menuPanel) return;
-    menuOpen = true;
-    menu.classList.add("is-open");
-    menu.classList.remove("opacity-0", "pointer-events-none");
-    menu.classList.add("opacity-100", "pointer-events-auto");
-    iconOpen?.classList.add("hidden");
-    iconClose?.classList.remove("hidden");
-    document.body.classList.add("overflow-hidden");
-
-    if (!prefersReducedMotion()) {
-      anime({ targets: menuPanel, opacity: [0, 1], duration: 350, easing: EASE.out });
-      anime({
-        targets: mobileLinks,
-        opacity: [0, 1],
-        translateY: [36, 0],
-        delay: anime.stagger(55, { start: 120 }),
-        duration: 650,
-        easing: EASE.outExpo,
-      });
-      anime({
-        targets: "[data-mobile-social]",
-        opacity: [0, 1],
-        translateY: [20, 0],
-        delay: 420,
-        duration: 500,
-        easing: EASE.out,
-      });
-    }
-  };
-
-  const closeMenu = () => {
-    if (!menu || !menuPanel) return;
-    menuOpen = false;
-    document.body.classList.remove("overflow-hidden");
-    iconOpen?.classList.remove("hidden");
-    iconClose?.classList.add("hidden");
-
-    const finish = () => {
-      menu.classList.remove("is-open", "opacity-100", "pointer-events-auto");
-      menu.classList.add("opacity-0", "pointer-events-none");
-    };
-
-    if (prefersReducedMotion()) {
-      finish();
-      return;
-    }
-
-    anime({
-      targets: [...mobileLinks, "[data-mobile-social]"],
-      opacity: 0,
-      translateY: 16,
-      duration: 250,
-      easing: EASE.out,
-    });
-    anime({
-      targets: menuPanel,
-      opacity: [1, 0],
-      duration: 300,
-      easing: EASE.out,
-      complete: finish,
-    });
-  };
-
-  toggle?.addEventListener("click", () => {
-    if (menuOpen) closeMenu();
-    else openMenu();
-  });
-
-  mobileLinks.forEach((link) => link.addEventListener("click", closeMenu));
-  menu?.addEventListener("click", (e) => {
-    if (e.target === menu) closeMenu();
-  });
 }
 
 function initParticles() {

@@ -34,6 +34,7 @@ export type RawRelease = Omit<MusicTrack, "spotify" | "appleMusic"> & {
 
 const SHORT_REEL_PATTERN = /\b(reels?|shorts?)\b|#reels?|#shorts/i;
 const SHORT_MAX_SECONDS = 60;
+const SOCIAL_REEL_PATTERN = /#humor|#baile|\bcantando y bailando\b/i;
 
 /** Excluye Reels/Shorts — no deben aparecer en ninguna sección del sitio. */
 export function isShortOrReel(release: RawRelease): boolean {
@@ -42,12 +43,35 @@ export function isShortOrReel(release: RawRelease): boolean {
 
   const title = release.title ?? "";
   if (SHORT_REEL_PATTERN.test(title)) return true;
+  if (SOCIAL_REEL_PATTERN.test(title)) return true;
 
   if (release.kind === "short" || release.isShort === true) return true;
 
   const duration = release.durationSeconds;
   if (typeof duration === "number" && duration > 0 && duration <= SHORT_MAX_SECONDS) {
     return true;
+  }
+
+  return false;
+}
+
+function compileExcludePatterns(patterns: string[] = []): RegExp[] {
+  return patterns.map((source) => {
+    try {
+      return new RegExp(source, "i");
+    } catch {
+      return new RegExp(source.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i");
+    }
+  });
+}
+
+function isExcludedByOverride(release: RawRelease): boolean {
+  const id = extractYoutubeId(release.youtube);
+  if (id && (latestOverride.excludeVideoIds ?? []).includes(id)) return true;
+
+  const title = release.title ?? "";
+  for (const pattern of compileExcludePatterns(latestOverride.excludeTitlePatterns ?? [])) {
+    if (pattern.test(title)) return true;
   }
 
   return false;
@@ -72,6 +96,7 @@ type LatestReleaseOverride = {
   description?: string | null;
   titleOverride?: string | null;
   excludeVideoIds?: string[];
+  excludeTitlePatterns?: string[];
 };
 
 type ReleasesCatalogFile = {
@@ -214,7 +239,7 @@ export function mergeReleaseSources(
 
   return [...byId.values()]
     .filter((release) => !isShortOrReel(release))
-    .filter((release) => !(latestOverride.excludeVideoIds ?? []).includes(extractYoutubeId(release.youtube)))
+    .filter((release) => !isExcludedByOverride(release))
     .sort(
       (a, b) => new Date(b.releaseDate).getTime() - new Date(a.releaseDate).getTime()
     );

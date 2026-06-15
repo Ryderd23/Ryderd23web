@@ -45,47 +45,4 @@ const { logo, navigation } = site;
     </div>
   </nav>
   <div class="navbar-premium__border" aria-hidden="true"></div>
-
-  <button
-    type="button"
-    class="navbar-menu-btn lg:hidden fixed z-[60] p-2.5 text-gold rounded-full"
-    aria-label="Menú"
-    data-menu-toggle
-  >
-    <svg class="w-6 h-6 icon-open" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16" />
-    </svg>
-    <svg class="w-6 h-6 icon-close hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-width="1.5" d="M6 6l12 12M18 6L6 18" />
-    </svg>
-  </button>
 </header>
-
-<div
-  class="fixed inset-0 z-40 bg-void/96 backdrop-blur-2xl opacity-0 pointer-events-none lg:hidden"
-  data-mobile-menu
->
-  <nav
-    class="h-full flex flex-col items-center justify-center gap-6 sm:gap-8 px-6 opacity-0"
-    data-mobile-panel
-  >
-    {
-      navigation.map((item) => (
-        <a
-          href={item.href}
-          class="font-display text-xl sm:text-2xl tracking-widest text-white hover:text-gold transition-colors opacity-0"
-          data-mobile-link
-        >
-          {item.label}
-        </a>
-      ))
-    }
-    <div class="flex flex-wrap justify-center gap-4 mt-4 max-w-sm opacity-0" data-mobile-social>
-      {
-        navbarSocials.map((s) => (
-          <SocialLink href={s.url} name={s.name} icon={s.icon} size="lg" />
-        ))
-      }
-    </div>
-  </nav>
-</div>
