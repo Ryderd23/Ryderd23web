@@ -51,7 +51,7 @@ const D = "div";
   <D class="contact-section__content relative z-10 section-pad">
     <D class="container-main">
       <D class="grid lg:grid-cols-2 gap-10 lg:gap-14 xl:gap-20 items-start">
-        <D class="contact-panel reveal">
+        <D class="contact-panel reveal" data-reveal="left">
           <h2 class="heading-section mb-8">{contact.followTitle}</h2>
           <D class="flex flex-wrap gap-4">
             {
@@ -68,7 +68,7 @@ const D = "div";
           />
         </D>
 
-        <D class="contact-panel reveal">
+        <D class="contact-panel reveal" data-reveal="right">
           <h2 class="heading-section mb-2">{contact.formTitle}</h2>
           <D class="w-12 h-px bg-gold/50 mb-8"></D>
           <form

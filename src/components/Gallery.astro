@@ -6,16 +6,17 @@ const Box = "div";
 ---
 
 <section id={gallery.id} class="section-pad bg-void-950 overflow-hidden">
-  <Box class="container-main mb-10 reveal">
+  <Box class="container-main mb-10 reveal" data-reveal="up">
     <h2 class="heading-section">{gallery.title}</h2>
     <Box class="w-16 h-px bg-gold/50 mt-5 origin-left" data-reveal-line />
   </Box>
 
-  <Box class="relative">
+  <Box class="relative scroll-carousel-wrap scroll-carousel-wrap--void-950 scroll-carousel-wrap--start" data-scroll-carousel-wrap>
     <Box
       id="gallery-track"
-      class="flex gap-4 px-5 sm:px-8 lg:px-16 overflow-x-auto scroll-hide snap-x snap-mandatory pb-4"
+      class="scroll-carousel flex gap-4 px-5 sm:px-8 lg:px-16 overflow-x-auto scroll-hide snap-x snap-mandatory pb-4"
       data-reveal-group
+      data-scroll-carousel
     >
       {
         gallery.images.map((img) => (

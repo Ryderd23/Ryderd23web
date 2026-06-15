@@ -79,10 +79,11 @@ const Box = "div";
     </Box>
 
     <!-- Mobile slider -->
-    <Box class="md:hidden relative -mx-5 sm:-mx-8">
+    <Box class="md:hidden relative -mx-5 sm:-mx-8 scroll-carousel-wrap scroll-carousel-wrap--start" data-scroll-carousel-wrap>
       <Box
-        class="flex gap-4 sm:gap-5 px-5 sm:px-8 pb-2 overflow-x-auto scroll-hide snap-x snap-mandatory"
+        class="scroll-carousel flex gap-4 sm:gap-5 px-5 sm:px-8 pb-2 overflow-x-auto scroll-hide snap-x snap-mandatory"
         data-reveal-group
+        data-scroll-carousel
       >
         {
           videoTracks.map((track) => (

@@ -362,25 +362,71 @@ type RevealPreset = {
   scale: number;
 };
 
-function getRevealPreset(type: string): RevealPreset {
+function isMobileViewport(): boolean {
+  return window.innerWidth < 1024;
+}
+
+function isNearViewport(el: HTMLElement, marginRatio = 0.06): boolean {
+  const rect = el.getBoundingClientRect();
+  const vh = window.innerHeight;
+  return rect.top < vh * (1 - marginRatio) && rect.bottom > vh * marginRatio;
+}
+
+function resolveRevealType(type: string): string {
+  if (!isMobileViewport()) return type;
+  if (type === "left" || type === "right") return "up";
+  return type;
+}
+
+function getRevealPreset(type: string, mobile = isMobileViewport()): RevealPreset {
+  const resolved = resolveRevealType(type);
+  const y = mobile ? 24 : 40;
+  const x = mobile ? 28 : 48;
   const presets: Record<string, RevealPreset> = {
-    up: { opacity: 0, translateX: 0, translateY: 40, scale: 1 },
-    down: { opacity: 0, translateX: 0, translateY: -30, scale: 1 },
-    left: { opacity: 0, translateX: -48, translateY: 0, scale: 1 },
-    right: { opacity: 0, translateX: 48, translateY: 0, scale: 1 },
-    scale: { opacity: 0, translateX: 0, translateY: 20, scale: 0.94 },
+    up: { opacity: 0, translateX: 0, translateY: y, scale: 1 },
+    down: { opacity: 0, translateX: 0, translateY: mobile ? -18 : -30, scale: 1 },
+    left: { opacity: 0, translateX: -x, translateY: 0, scale: 1 },
+    right: { opacity: 0, translateX: x, translateY: 0, scale: 1 },
+    scale: { opacity: 0, translateX: 0, translateY: mobile ? 14 : 20, scale: mobile ? 0.96 : 0.94 },
     fade: { opacity: 0, translateX: 0, translateY: 0, scale: 1 },
   };
-  return presets[type] ?? presets.up;
+  return presets[resolved] ?? presets.up;
+}
+
+function animateRevealGroup(el: HTMLElement) {
+  const mobile = isMobileViewport();
+  const groupDuration = mobile ? 620 : 850;
+  const groupDelayStep = mobile ? 70 : 100;
+  const children = el.querySelectorAll<HTMLElement>("[data-reveal-child]");
+
+  anime.set(children, { opacity: 0 });
+
+  children.forEach((child, i) => {
+    const type = child.dataset.reveal || "up";
+    const from = getRevealPreset(type, mobile);
+    anime({
+      targets: child,
+      opacity: [from.opacity, 1],
+      translateX: [from.translateX, 0],
+      translateY: [from.translateY, 0],
+      scale: [from.scale, 1],
+      duration: groupDuration,
+      delay: i * groupDelayStep,
+      easing: EASE.outExpo,
+      complete: () => child.classList.add("is-visible"),
+    });
+  });
+
+  el.classList.add("is-visible");
 }
 
 function animateReveal(el: HTMLElement) {
   const type = el.dataset.reveal || "up";
   const delay = Number(el.dataset.revealDelay || 0);
   const duration = Number(el.dataset.revealDuration || 900);
-  const isMobile = window.innerWidth < 1024;
-  const durationScale = isMobile ? 0.75 : 1;
-  const delayScale = isMobile ? 0.7 : 1;
+  const isMobile = isMobileViewport();
+  const durationScale = isMobile ? 0.78 : 1;
+  const delayScale = isMobile ? 0.65 : 1;
   const durationAdj = Math.max(250, duration * durationScale);
   const delayAdj = delay * delayScale;
   const from = getRevealPreset(type);
@@ -421,14 +467,24 @@ function initScrollReveal() {
   const reduced = prefersReducedMotion();
   const singles = document.querySelectorAll<HTMLElement>(".reveal, [data-reveal]");
   const groups = document.querySelectorAll<HTMLElement>("[data-reveal-group]");
-  const isMobile = window.innerWidth < 1024;
-  const groupDuration = isMobile ? 650 : 850;
-  const groupDelayStep = isMobile ? 80 : 100;
+  const isMobile = isMobileViewport();
 
   if (reduced) {
     singles.forEach((el) => el.classList.add("is-visible"));
+    groups.forEach((el) => {
+      el.classList.add("is-visible");
+      el.querySelectorAll("[data-reveal-child]").forEach((child) => child.classList.add("is-visible"));
+    });
     return;
   }
+
+  const triggerReveal = (el: HTMLElement) => {
+    if (el.dataset.revealGroup !== undefined) {
+      animateRevealGroup(el);
+    } else {
+      animateReveal(el);
+    }
+  };
 
   const observer = new IntersectionObserver(
     (entries) => {
@@ -436,40 +492,25 @@ function initScrollReveal() {
         if (!entry.isIntersecting) return;
         const el = entry.target as HTMLElement;
         observer.unobserve(el);
-
-        if (el.dataset.revealGroup !== undefined) {
-          const children = el.querySelectorAll<HTMLElement>("[data-reveal-child]");
-          anime.set(children, { opacity: 0 });
-
-          children.forEach((child, i) => {
-            const type = child.dataset.reveal || "up";
-            const from = getRevealPreset(type);
-            anime({
-              targets: child,
-              opacity: [from.opacity, 1],
-              translateX: [from.translateX, 0],
-              translateY: [from.translateY, 0],
-              scale: [from.scale, 1],
-              duration: groupDuration,
-              delay: i * groupDelayStep,
-              easing: EASE.outExpo,
-              complete: () => child.classList.add("is-visible"),
-            });
-          });
-          el.classList.add("is-visible");
-        } else {
-          animateReveal(el);
-        }
+        triggerReveal(el);
       });
     },
-    { threshold: 0.06, rootMargin: "0px 0px -4% 0px" }
+    {
+      threshold: isMobile ? 0.04 : 0.06,
+      rootMargin: isMobile ? "0px 0px -2% 0px" : "0px 0px -4% 0px",
+    }
   );
 
   singles.forEach((el) => {
-    if (!el.closest("[data-reveal-group]")) observer.observe(el);
+    if (el.closest("[data-reveal-group]")) return;
+    if (isNearViewport(el)) triggerReveal(el);
+    else observer.observe(el);
   });
 
-  groups.forEach((group) => observer.observe(group));
+  groups.forEach((group) => {
+    if (isNearViewport(group)) triggerReveal(group);
+    else observer.observe(group);
+  });
 }
 
 function initNavbar() {
@@ -1672,39 +1713,54 @@ function initGallery() {
   // Inicializar visibilidad al cargar
   setTimeout(updateButtonVisibility, 0);
 
-  const items = track.querySelectorAll<HTMLElement>(".gallery-item");
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        const el = entry.target as HTMLElement;
-        observer.unobserve(el);
-        if (prefersReducedMotion()) {
-          el.classList.add("is-visible");
-          return;
-        }
-        anime({
-          targets: el,
-          opacity: [0, 1],
-          scale: [0.92, 1],
-          duration: 700,
-          easing: EASE.outExpo,
-        });
-        el.classList.add("is-visible");
-      });
-    },
-    { threshold: 0.2, root: track }
-  );
-
-  items.forEach((item) => {
-    if (!prefersReducedMotion()) {
-      anime.set(item, { opacity: 0, scale: 0.92 });
-    }
-    observer.observe(item);
-  });
-
-  // Inicializar lightbox de galería
   initGalleryLightbox();
+}
+
+function initTouchFeedback() {
+  if (prefersReducedMotion() || window.matchMedia("(hover: hover)").matches) return;
+
+  const selector =
+    ".btn-gold, .btn-outline, .video-card-premium__trigger, .gallery-item, .socials-premium__card, .platform-card, .discography-catalog__btn, [data-hero-cta], .latest-release__player-play";
+
+  document.querySelectorAll<HTMLElement>(selector).forEach((el) => {
+    const clearTouch = () => el.classList.remove("is-touching");
+
+    el.addEventListener(
+      "touchstart",
+      () => {
+        el.classList.add("is-touching");
+      },
+      { passive: true }
+    );
+    el.addEventListener("touchend", () => setTimeout(clearTouch, 140), { passive: true });
+    el.addEventListener("touchcancel", clearTouch, { passive: true });
+  });
+}
+
+function initHorizontalCarousels() {
+  document.querySelectorAll<HTMLElement>("[data-scroll-carousel]").forEach((track) => {
+    const wrap = track.closest<HTMLElement>("[data-scroll-carousel-wrap]");
+    if (!wrap) return;
+
+    const updateEdges = () => {
+      const atStart = track.scrollLeft <= 2;
+      const atEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 2;
+      wrap.classList.toggle("scroll-carousel-wrap--start", atStart);
+      wrap.classList.toggle("scroll-carousel-wrap--end", atEnd);
+    };
+
+    let scrollTimeout: ReturnType<typeof setTimeout>;
+    track.addEventListener(
+      "scroll",
+      () => {
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(updateEdges, 40);
+      },
+      { passive: true }
+    );
+    window.addEventListener("resize", updateEdges, { passive: true });
+    updateEdges();
+  });
 }
 
 function initGalleryLightbox() {
@@ -1926,6 +1982,8 @@ document.addEventListener("DOMContentLoaded", () => {
   initSocialLinks();
   initHoverAnimations();
   initGallery();
+  initTouchFeedback();
+  initHorizontalCarousels();
   initMusicModal();
   initVideoModal();
   initLatestRelease();

@@ -7,20 +7,22 @@ const Box = "div";
 
 <section id={platformsSection.id} class="section-pad">
   <Box class="container-main">
-    <Box class="text-center mb-14 reveal">
+    <Box class="text-center mb-14 reveal" data-reveal="up">
       <p class="text-[10px] tracking-[0.35em] text-gold uppercase mb-2">{platformsSection.eyebrow}</p>
       <h2 class="heading-section text-white">{platformsSection.title}</h2>
       <Box class="w-16 h-px bg-gold/50 mx-auto mt-6" data-reveal-line />
     </Box>
 
-    <Box class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+    <Box class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-6xl mx-auto" data-reveal-group>
       {
         platformCards.map((p) => (
           <a
             href={p.url}
             target="_blank"
             rel="noopener noreferrer"
-            class="group reveal platform-card glass-panel rounded-sm p-8 md:p-10 flex flex-col items-center text-center gap-6 min-h-[280px] justify-center border border-white/[0.06] hover:border-gold/35 transition-all duration-500"
+            class="group platform-card glass-panel rounded-sm p-6 sm:p-8 md:p-10 flex flex-col items-center text-center gap-5 sm:gap-6 min-h-[240px] sm:min-h-[280px] justify-center border border-white/[0.06] hover:border-gold/35 transition-all duration-500"
+            data-reveal-child
+            data-reveal="scale"
             data-platform-card
           >
             <Box

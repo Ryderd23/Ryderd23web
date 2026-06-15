@@ -251,6 +251,19 @@
     pointer-events: none;
   }
 
+  @media (prefers-reduced-motion: reduce) {
+    .reveal,
+    [data-reveal-child] {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+
+    [data-reveal-line] {
+      transform: scaleX(1);
+      opacity: 1;
+    }
+  }
+
   [data-reveal-line] {
     transform: scaleX(0);
     transform-origin: left center;
@@ -368,6 +381,15 @@
 @media (max-width: 1023px) {
   :root {
     --navbar-height: var(--navbar-height-mobile);
+  }
+
+  .navbar-premium__inner {
+    padding-left: max(1.25rem, env(safe-area-inset-left));
+    padding-right: max(1.25rem, env(safe-area-inset-right));
+  }
+
+  .navbar-menu-btn {
+    right: max(1.25rem, env(safe-area-inset-right));
   }
 }
 
@@ -955,6 +977,75 @@
   scrollbar-width: none;
 }
 
+/* Carruseles horizontales — snap, fade y safe areas */
+.scroll-carousel {
+  scroll-padding-inline: max(1.25rem, env(safe-area-inset-left));
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+}
+
+.scroll-carousel-wrap {
+  position: relative;
+}
+
+.scroll-carousel-wrap::before,
+.scroll-carousel-wrap::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0.5rem;
+  width: clamp(1.5rem, 6vw, 2.5rem);
+  z-index: 2;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.35s ease;
+}
+
+.scroll-carousel-wrap::before {
+  left: 0;
+  background: linear-gradient(90deg, var(--carousel-fade, #050505) 15%, transparent 100%);
+}
+
+.scroll-carousel-wrap::after {
+  right: 0;
+  background: linear-gradient(270deg, var(--carousel-fade, #050505) 15%, transparent 100%);
+}
+
+.scroll-carousel-wrap--start::before,
+.scroll-carousel-wrap--end::after {
+  opacity: 0;
+}
+
+.scroll-carousel-wrap--void-950 {
+  --carousel-fade: #0a0a0a;
+}
+
+@media (min-width: 768px) {
+  .scroll-carousel-wrap::before,
+  .scroll-carousel-wrap::after {
+    display: none;
+  }
+}
+
+/* Feedback táctil en dispositivos sin hover */
+@media (hover: none) {
+  .is-touching {
+    transform: scale(0.97);
+    transition: transform 0.14s ease;
+  }
+
+  .video-card-premium__trigger.is-touching .video-card-premium__media,
+  .gallery-item.is-touching {
+    transform: scale(0.98);
+  }
+
+  .socials-premium__card.is-touching,
+  .platform-card.is-touching {
+    border-color: rgba(212, 175, 55, 0.3);
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.08);
+  }
+}
+
 /* ─── Sobre el artista ─── */
 .about-section__glow {
   background: radial-gradient(
@@ -1042,6 +1133,18 @@
     max-height: 480px;
     margin-inline: auto;
     max-width: 420px;
+  }
+}
+
+@media (max-width: 639px) {
+  .about-artist-frame {
+    max-height: 420px;
+    max-width: 100%;
+  }
+
+  .about-story__p {
+    font-size: 0.95rem;
+    line-height: 1.75;
   }
 }
 
@@ -2287,6 +2390,19 @@
 
 .video-modal__placeholder.hidden {
   display: none;
+}
+
+@media (max-width: 639px) {
+  .video-card-premium__play-btn {
+    width: 3.25rem;
+    height: 3.25rem;
+  }
+
+  .music-modal__panel,
+  .video-modal__panel {
+    max-height: calc(100dvh - 2rem);
+    overflow-y: auto;
+  }
 }
 
 /* ─── Videos — mejoras ─── */
